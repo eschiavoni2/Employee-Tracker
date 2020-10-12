@@ -19,7 +19,7 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     // run the start function after the connection is made to prompt the user
-    start();
+    init();
 });
 
 // function to kick off program (initialize or init)
@@ -73,4 +73,4 @@ function add() {
     })
 }
 // DB.viewAllEmployees
-module.exports = connection;
+// module.exports = connection;
