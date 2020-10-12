@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
     user: "root",
     // your password
     password: "M1qu3tt314!",
-    database: "employee_DB",
+    database: "employees",
 });
 
 connection.connect(function (err) {
@@ -33,18 +33,43 @@ function loadPrompts() {
     inquirer.prompt({
         type: 'list',
         name: 'choice',
-        message: 'message to user',
-        choice: [{
-            name: 'veiw all employees',
-            value: 'VIEW_EMPLOYEES',
-        }];
+        message: 'What would you like to do?',
+        choice: [
+            {
+                name: 'Add a department, role or employee:',
+                value: 'ADD_DEPARTMENT',
+            },
+            {
+                name: 'View a department, role or employee:',
+                value: 'VIEW_EMPLOYEE',
+
+            },
+            {
+                name: 'Update employee role:',
+                value: 'UPDATE_ROLE',
+            },
+        ]
     });
 };
 
-// switch statement
-switch (choice) {
-    case "VIEW_EMPLOYEES":
-        return viewEmployees();
-};
+// // switch statement
+// switch (choice) {
+//     case "VIEW_EMPLOYEES":
+//         return viewEmployees();
+// };
 
-DB.viewAllEmployees
+function add() {
+    console.log('Please make a selection:')
+    inquirer
+    .prompt({
+        type: 'list',
+        name: 'addQuery',
+        message: 'Please select what you would like to add:',
+        choices: ['Add a department', 'Add a role', 'Add an employee'],
+    })
+    .then(answer => {
+        switch (answer.addQuery)
+    })
+}
+// DB.viewAllEmployees
+module.exports = connection;
