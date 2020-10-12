@@ -3,6 +3,7 @@ const inquirer = require('inquirer');
 const mysql = require('mysql');
 const logo = require('asciiart-logo');
 const { start } = require('repl');
+const consoleTable = require('console.table');
 
 var connection = mysql.createConnection({
     host: "localhost",
