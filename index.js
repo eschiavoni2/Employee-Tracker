@@ -41,8 +41,9 @@ function loadPrompts() {
             "View Employees", "View Departments", "View all Roles", "Update Employee Role"
         ]
     })
-    
+
     .then (answer => {
+        // switch statement with required cases
         switch(answer.choice){
             case "View Employees":
                 viewEmployees();
@@ -75,23 +76,37 @@ function loadPrompts() {
     });
 };
 
-// // switch statement
-// switch (choice) {
-//     case "VIEW_EMPLOYEES":
-//         return viewEmployees();
-// };
-
-function add() {
+function addRole() {
     console.log('Please make a selection:')
     inquirer
     .prompt({
         type: 'list',
-        name: 'addQuery',
-        message: 'Please select what you would like to add:',
-        choices: ['Add a department', 'Add a role', 'Add an employee'],
+        name: 'addRole',
+        message: 'Which role would you like to add?',
     })
     .then(answer => {
-        switch (answer.addQuery)
+        connection.query("INSERT INTO role SET ?", 
+        {name: answer.addRole}, function (err) {
+            console.log("Successfully added a new Role")
+            loadPrompts();
+        })
+    })
+}
+
+function addRole() {
+    console.log('Please make a selection:')
+    inquirer
+    .prompt({
+        type: 'list',
+        name: 'addRole',
+        message: 'Which role would you like to add?',
+    })
+    .then(answer => {
+        connection.query("INSERT INTO role SET ?", 
+        {name: answer.addRole}, function (err) {
+            console.log("Successfully added a new Role")
+            loadPrompts();
+        })
     })
 }
 // DB.viewAllEmployees
