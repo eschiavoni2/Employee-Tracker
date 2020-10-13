@@ -4,6 +4,7 @@ const mysql = require('mysql');
 const logo = require('asciiart-logo');
 const { start } = require('repl');
 const consoleTable = require('console.table');
+const { allowedNodeEnvironmentFlags } = require('process');
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -39,18 +40,39 @@ function loadPrompts() {
             "Add a Role", "Add an Employee", "Add a Department", 
             "View Employees", "View Departments", "View all Roles", "Update Employee Role"
         ]
-    });
+    })
+    
     .then (answer => {
         switch(answer.choice){
-            case "View Employees";
-            viewEmployees();
-            break;
+            case "View Employees":
+                viewEmployees();
+                break;
 
-            case "View Departments";
-            viewDepartments();
-            break;
+            case "View Departments":
+                viewDepartments();
+                break;
+
+            case "View all Roles":
+                viewRoles();
+                break;
+
+            case "Add a Role":
+                addRole();
+                break;
+
+            case "Add a Department":
+                addDepartment();
+                break;
+
+            case "Add an Employee":
+                addEmployee();
+                break;
+
+            case "Update a Role":
+                updateRole();
+                break;
         }
-    })
+    });
 };
 
 // // switch statement
