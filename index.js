@@ -207,5 +207,44 @@ function viewRoles() {
         loadPrompts();
     })
 }
+
+function updateRole() {
+    var query = "SELECT first_name, last_name FROM employee"
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    })
+    var query = "SELECT title FROM role"
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    })
+    inquirer
+    .prompt ([
+        {
+            type: 'number',
+            name: 'updateRole',
+            message: 'What is the ID number of the employee you wish to update?'
+        },
+        {
+            type: 'number',
+            name: 'newRole',
+            message: 'What is the ID number to the updated role?'
+        }
+    ])
+    .then(answer => {
+        connection.query("Update employee SET ? WHERE ?",
+        [
+            {
+                id: answer.updateRole
+            },
+            {
+                role_id: answer.newRole
+            }
+        ],)
+        console.log("You updated employee role.")
+        loadPrompts();
+    })
+}
 // DB.viewAllEmployees
 // module.exports = connection;
