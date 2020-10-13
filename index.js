@@ -2,7 +2,9 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
 const logo = require("asciiart-logo");
-const { start } = require("repl");
+const util = require('util');
+// const connection = require("./db/connection");
+// const { start } = require("repl");
 const consoleTable = require("console.table");
 const { allowedNodeEnvironmentFlags } = require("process");
 
@@ -23,9 +25,12 @@ connection.connect(function (err) {
   init();
 });
 
+connection.queryPromise = util.promisify(connection.query);
+
+
 // function to kick off program (initialize or init)
 function init() {
-  const logoText = log({ name: "Employee Manager" }).render();
+  const logoText = logo({ name: "Employee Manager" }).render();
   console.log(logoText);
   // load our prompts
   loadPrompts();
@@ -37,7 +42,7 @@ function loadPrompts() {
       type: "list",
       name: "choice",
       message: "What would you like to do?",
-      choice: [
+      choices: [
         "Add a Role",
         "Add an Employee",
         "Add a Department",
@@ -45,6 +50,7 @@ function loadPrompts() {
         "View Departments",
         "View all Roles",
         "Update Employee Role",
+        "End"
       ],
     })
 
@@ -78,45 +84,80 @@ function loadPrompts() {
         case "Update a Role":
           updateRole();
           break;
+
+        case "End":
+            connection.end();
       }
     });
 }
 
 function addRole() {
   console.log("Add Role");
-  inquirer
-    .prompt([
-      {
-        type: "index",
-        name: "addRole",
-        message: "Which role would you like to add?",
-      },
-      {
-        type: "number",
-        name: "department",
-        message: "Which department id will this role be in?",
-      },
-      {
-        type: "number",
-        name: "salary",
-        message: "What is the salary for the role are you adding?",
-      },
-    ])
+// (for employees) create 2 global variables []
+  connection.queryPromise('SELECT * FROM department')
+    .then(departments => {
+        /*
+        [
+            {
+                id: 1,
+                name: 'Sales'
+            }
+        ]
+        */
+    //    global variable 1 =
+        departments = departments.map(department => {
+            return {
+                value: department.id,
+                name: department.name
+            };
+        });
+                // Closing with } .then for second global variable
 
+        /*
+        [
+            {
+                value: 1,
+                name: 'Sales'
+            }
+        ]
+        */
+
+
+       return inquirer
+       .prompt([
+         {
+           type: "input",
+           name: "addRole",
+           message: "Which role would you like to add?",
+         },
+         {
+           type: "list",
+           name: "departments",
+           choices: departments,
+           message: "Which department id will this role be in?",
+         },
+         {
+           type: "input",
+           name: "salary",
+           message: "What is the salary for the role are you adding?",
+         },
+       ]);
+    })
     .then((answer) => {
-      connection.query(
-        "INSERT INTO role SET ?",
-        {
-          title: answer.addRole,
-          salary: answer.salary,
-          department: answer.department_id,
-        },
-        function (err) {
-          console.log("Successfully added a new Role");
-          loadPrompts();
-        }
-      );
-    });
+        console.log(answer.departments);
+        connection.query(
+          "INSERT INTO role SET ?",
+          {
+            title: answer.addRole,
+            salary: answer.salary,
+            department: answer.department_id,
+          },
+          function (err) {
+            console.log("Successfully added a new Role");
+            loadPrompts();
+          }
+        );
+      });
 }
 
 function addDepartment() {
@@ -243,6 +284,14 @@ function updateRole() {
             }
         ],)
         console.log("You updated employee role.")
+        loadPrompts();
+    })
+}
+
+function viewRoles() {
+    connection.queryPromise('SELECT role.title, role.salary, department.name FROM role INNER JOIN department ON role.department_id=department.id')
+    .then(roles => {
+        console.table(roles);
         loadPrompts();
     })
 }

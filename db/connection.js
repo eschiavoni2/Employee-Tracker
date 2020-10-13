@@ -1,10 +1,18 @@
-var connection = mysql.createConnection({
-    host: "localhost",
+// const { builtinModules } = require("module");
+// const mysql = require("mysql");
 
-    port:3306,
+// var connection = mysql.createConnection({
+//     host: "localhost",
 
-    user: "root",
+//     port:3306,
 
-    password: "M1qu3tt314!",
-    database: "employee_DB",
-});
+//     user: "root",
+
+//     password: "M1qu3tt314!",
+//     database: "employee",
+// });
+
+// connection.connect(function(err) {
+//     if (err) throw err;
+// });
+// module.exports = connection;
