@@ -91,19 +91,19 @@ function addRole() {
     },
     {
         type: 'number',
-        name: 'addRole',
-        message: "Which role are you adding?"
+        name: 'salary',
+        message: "What is the salary for the role are you adding?"
     }])
     
     .then(answer => {
         connection.query("INSERT INTO role SET ?", 
-        {title: answer.addRole, salary: answer.salary, department_id: answer.department_id}, 
-        function (err) {
-            console.log("Successfully added a new Role")
-            loadPrompts();
-        })
-    })
-}
+            {title: answer.addRole, salary: answer.salary, department: answer.department_id}, function (err){
+                console.log("Successfully added a new Role")
+                loadPrompts();
+                })});
+    }
+
+
 
 function addDepartment() {
     console.log('Add Department')
@@ -125,14 +125,30 @@ function addDepartment() {
 function addEmployee() {
     console.log('Add Employee')
     inquirer
-    .prompt({
-        type: 'list',
-        name: 'addEmployee',
-        message: 'Which employee would you like to add?',
-    })
+    .prompt([{
+        type: 'input',
+        name: 'first_name',
+        message: 'What is the first name of your employee?',
+    },
+    {
+        type: 'input',
+        name: 'last_name',
+        message: 'What is the last name of your employee?'
+    },
+    {
+        type: 'number',
+        name: 'role_id',
+        message: 'What is the ID for this role?'
+    },
+    {
+        type: 'number',
+        name: 'manager_id',
+        message: 'What is the ID for employee manager?'
+    }
+])
     .then(answer => {
         connection.query("INSERT INTO employee SET ?", 
-        {name: answer.addEmployee}, function (err) {
+        {first_name: answer.first_name, last_name: answer.last_name, role_id: answer.role_id, manager_id: answer.manager_id}, function (err) {
             console.log("Successfully added a new Employee")
             loadPrompts();
         })
