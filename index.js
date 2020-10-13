@@ -77,10 +77,10 @@ function loadPrompts() {
 };
 
 function addRole() {
-    console.log('Please make a selection:')
+    console.log('Add Role')
     inquirer
     .prompt({
-        type: 'list',
+        type: 'index',
         name: 'addRole',
         message: 'Which role would you like to add?',
     })
@@ -93,18 +93,35 @@ function addRole() {
     })
 }
 
-function addRole() {
-    console.log('Please make a selection:')
+function addDepartment() {
+    console.log('Add Department')
     inquirer
     .prompt({
-        type: 'list',
-        name: 'addRole',
-        message: 'Which role would you like to add?',
+        type: 'index',
+        name: 'addDepartment',
+        message: 'Which department would you like to add?',
     })
     .then(answer => {
-        connection.query("INSERT INTO role SET ?", 
-        {name: answer.addRole}, function (err) {
-            console.log("Successfully added a new Role")
+        connection.query("INSERT INTO department SET ?", 
+        {name: answer.addDepartment}, function (err) {
+            console.log("Successfully added a new Department")
+            loadPrompts();
+        })
+    })
+}
+
+function addDepartment() {
+    console.log('Add Department')
+    inquirer
+    .prompt({
+        type: 'index',
+        name: 'addDepartment',
+        message: 'Which department would you like to add?',
+    })
+    .then(answer => {
+        connection.query("INSERT INTO department SET ?", 
+        {name: answer.addDepartment}, function (err) {
+            console.log("Successfully added a new Department")
             loadPrompts();
         })
     })
