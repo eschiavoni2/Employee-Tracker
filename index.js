@@ -79,14 +79,26 @@ function loadPrompts() {
 function addRole() {
     console.log('Add Role')
     inquirer
-    .prompt({
+    .prompt([{
         type: 'index',
         name: 'addRole',
         message: 'Which role would you like to add?',
-    })
+    },
+    {
+        type: 'number',
+        name: 'department',
+        message: "Which department id will this role be in?"
+    },
+    {
+        type: 'number',
+        name: 'addRole',
+        message: "Which role are you adding?"
+    }])
+    
     .then(answer => {
         connection.query("INSERT INTO role SET ?", 
-        {name: answer.addRole}, function (err) {
+        {title: answer.addRole, salary: answer.salary, department_id: answer.department_id}, 
+        function (err) {
             console.log("Successfully added a new Role")
             loadPrompts();
         })
@@ -110,18 +122,18 @@ function addDepartment() {
     })
 }
 
-function addDepartment() {
-    console.log('Add Department')
+function addEmployee() {
+    console.log('Add Employee')
     inquirer
     .prompt({
-        type: 'index',
-        name: 'addDepartment',
-        message: 'Which department would you like to add?',
+        type: 'list',
+        name: 'addEmployee',
+        message: 'Which employee would you like to add?',
     })
     .then(answer => {
-        connection.query("INSERT INTO department SET ?", 
-        {name: answer.addDepartment}, function (err) {
-            console.log("Successfully added a new Department")
+        connection.query("INSERT INTO employee SET ?", 
+        {name: answer.addEmployee}, function (err) {
+            console.log("Successfully added a new Employee")
             loadPrompts();
         })
     })
