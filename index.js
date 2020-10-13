@@ -36,21 +36,21 @@ function loadPrompts() {
         name: 'choice',
         message: 'What would you like to do?',
         choice: [
-            {
-                name: 'Add a department, role or employee:',
-                value: 'ADD_DEPARTMENT',
-            },
-            {
-                name: 'View a department, role or employee:',
-                value: 'VIEW_EMPLOYEE',
-
-            },
-            {
-                name: 'Update employee role:',
-                value: 'UPDATE_ROLE',
-            },
+            "Add a Role", "Add an Employee", "Add a Department", 
+            "View Employees", "View Departments", "View all Roles", "Update Employee Role"
         ]
     });
+    .then (answer => {
+        switch(answer.choice){
+            case "View Employees";
+            viewEmployees();
+            break;
+
+            case "View Departments";
+            viewDepartments();
+            break;
+        }
+    })
 };
 
 // // switch statement
