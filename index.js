@@ -225,7 +225,7 @@ function addEmployee() {
 }
 
 function viewEmployees() {
-  var query = "SELECT id, first_name, last_name, role_id, manager_id";
+  var query = "SELECT id, first_name, last_name, role_id, manager_id FROM employee";
   connection.query(query, function (err, res) {
     if (err) throw err;
     console.table(res);
