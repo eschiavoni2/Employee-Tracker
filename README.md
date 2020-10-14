@@ -1,6 +1,6 @@
 # Employee-Tracker
 
-# Description
+## Description
 An interface that makes it easy for for others to view and interact with information stored in databases.  
 
 ## Technologies used:
