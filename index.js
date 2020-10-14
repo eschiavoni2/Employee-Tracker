@@ -185,7 +185,7 @@ function addEmployee() {
     .then(employee1 => {
         
     //    global variable 1 =
-        employee1 = employee1.map(employee1 => {
+        employee1 = employee1.map(employee => {
             return {
                 value: employee.id,
                 name: employee.name
@@ -195,12 +195,14 @@ function addEmployee() {
     connection.queryPromise('SELECT * FROM role')
     .then(role2 => {
 
-        role2 = role2.map(role2 => {
+        role2 = role2.map(role => {
             return {
                 value: role.id,
-                name: role.name
+                title: role.title
             }
         })
+        console.log(role2[0]);
+        console.log(role2[1])
     }));
 
   return inquirer
@@ -216,10 +218,10 @@ function addEmployee() {
         message: "What is the last name of your employee?",
       },
       {
-        type: "number",
+        type: "list",
         name: "role_id",
-        choices: "role2",
         message: "Choose a role:",
+        choices: role2,
       },
       {
         type: "number",
