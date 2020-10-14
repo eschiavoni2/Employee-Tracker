@@ -93,7 +93,6 @@ function loadPrompts() {
 
 function addRole() {
   console.log("Add Role");
-// (for employees) create 2 global variables []
   connection.queryPromise('SELECT * FROM department')
     .then(departments => {
         /*
@@ -104,14 +103,12 @@ function addRole() {
             }
         ]
         */
-    //    global variable 1 =
         departments = departments.map(department => {
             return {
                 value: department.id,
                 name: department.name
             };
         });
-                // Closing with } .then for second global variable
 
         /*
         [
@@ -134,7 +131,7 @@ function addRole() {
            type: "list",
            name: "departments",
            choices: departments,
-           message: "Which department id will this role be in?",
+           message: "Choose a department:",
          },
          {
            type: "input",
@@ -182,7 +179,31 @@ function addDepartment() {
 
 function addEmployee() {
   console.log("Add Employee");
-  inquirer
+  var employee1 = [];
+  var role2 = [];
+  connection.queryPromise('SELECT * FROM employee')
+    .then(employee1 => {
+        
+    //    global variable 1 =
+        employee1 = employee1.map(employee1 => {
+            return {
+                value: employee.id,
+                name: employee.name
+            };
+        });
+    },
+    connection.queryPromise('SELECT * FROM role')
+    .then(role2 => {
+
+        role2 = role2.map(role2 => {
+            return {
+                value: role.id,
+                name: role.name
+            }
+        })
+    }));
+
+  return inquirer
     .prompt([
       {
         type: "input",
@@ -197,11 +218,13 @@ function addEmployee() {
       {
         type: "number",
         name: "role_id",
-        message: "What is the ID for this role?",
+        choices: "role2",
+        message: "Choose a role:",
       },
       {
         type: "number",
         name: "manager_id",
+        choices: "employee1",
         message: "What is the ID for employee manager?",
       },
     ])
