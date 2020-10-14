@@ -184,8 +184,8 @@ function addEmployee() {
       //    global variable 1 =
           employee1 = employees.map(employee => {
               return {
-                  value: employee.id,
-                  name: employee.name
+                value: employee.manager_id,
+                name: employee.name
               };
           });
           return connection.queryPromise('SELECT * FROM role');
@@ -195,8 +195,8 @@ function addEmployee() {
               return {
                   value: role.id,
                   name: role.title
-              }
-          })
+              };
+          });
       })
       .then(() => {
         return inquirer
